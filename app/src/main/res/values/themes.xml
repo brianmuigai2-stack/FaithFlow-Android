@@ -35,7 +35,7 @@
 
     <style name="Theme.FaithflowBible.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <style name="Theme.FaithflowBible.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/splash_navy</item>
+        <item name="windowSplashScreenBackground">@color/splash_window</item>
         <item name="windowSplashScreenAnimatedIcon">@android:color/transparent</item>
         <item name="postSplashScreenTheme">@style/Theme.FaithflowBible</item>
     </style>

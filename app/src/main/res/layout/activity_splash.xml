@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/splash_navy"
+    android:background="@color/splash_window"
     tools:context=".SplashActivity">
 
-    <!-- Swap this src for your mountain photo (drawable-nodpi/splash_bg.jpg) when you have it -->
     <ImageView
         android:id="@+id/splashBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
-        android:src="@drawable/bg_splash_gradient" />
+        android:src="@drawable/splash_bg" />
 
     <!-- Dark fade at the bottom so the progress bar + tagline stay readable -->
     <View
