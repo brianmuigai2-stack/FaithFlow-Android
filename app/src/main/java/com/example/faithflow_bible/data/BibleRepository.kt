@@ -4,7 +4,15 @@ import android.content.Context
 import org.json.JSONArray
 import org.json.JSONObject
 
-data class BookInfo(val index: Int, val name: String, val file: String, val chapterCount: Int)
+enum class Testament { OLD, NEW }
+
+data class BookInfo(
+    val index: Int,
+    val name: String,
+    val file: String,
+    val chapterCount: Int,
+    val testament: Testament
+)
 data class VerseRef(val bookIndex: Int, val chapter: Int, val verse: Int)
 data class ChapterVerse(val number: Int, val text: String)
 
@@ -22,8 +30,26 @@ class BibleRepository private constructor(context: Context) {
         val arr = JSONArray(read("bible/index.json"))
         return List(arr.length()) { i ->
             val o = arr.getJSONObject(i)
-            BookInfo(i, o.getString("name"), o.getString("file"), o.getInt("chapters"))
+            BookInfo(
+                index = i,
+                name = o.getString("name"),
+                file = o.getString("file"),
+                chapterCount = o.getInt("chapters"),
+                // index.json is in canonical order, so everything up to Matthew is the OT
+                testament = if (i < OLD_TESTAMENT_BOOKS) Testament.OLD else Testament.NEW
+            )
         }
+    }
+
+    val oldTestamentBooks: List<BookInfo> get() = books.filter { it.testament == Testament.OLD }
+    val newTestamentBooks: List<BookInfo> get() = books.filter { it.testament == Testament.NEW }
+
+    fun book(index: Int): BookInfo? = books.getOrNull(index)
+
+    fun bookByName(name: String): BookInfo? {
+        val wanted = name.trim().lowercase().filter { it.isLetterOrDigit() }
+        if (wanted.isEmpty()) return null
+        return books.firstOrNull { it.name.lowercase().filter { c -> c.isLetterOrDigit() } == wanted }
     }
 
     /** Blocking (parses a book on first use), so call it off the main thread. */
@@ -53,6 +79,9 @@ class BibleRepository private constructor(context: Context) {
     }
 
     companion object {
+        /** Genesis through Malachi; the rest are New Testament. */
+        const val OLD_TESTAMENT_BOOKS = 39
+
         @Volatile
         private var instance: BibleRepository? = null
 

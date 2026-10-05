@@ -11,25 +11,48 @@
         android:label="@string/ff_nav_home"
         tools:layout="@layout/fragment_home" />
 
-    <!-- The Bible tab opens the reader for now; the books list will sit in front of it later -->
-    <fragment
+    <!-- The Bible tab is a nested graph so books / chapters / reader stay in one
+         back stack, while the bottom bar still highlights the whole tab. -->
+    <navigation
         android:id="@+id/navigation_bible"
-        android:name="com.example.faithflow_bible.ui.reader.ReaderFragment"
-        android:label="@string/ff_nav_bible"
-        tools:layout="@layout/fragment_reader">
-        <argument
-            android:name="book"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
-            android:name="chapter"
-            android:defaultValue="1"
-            app:argType="integer" />
-        <argument
-            android:name="verse"
-            android:defaultValue="0"
-            app:argType="integer" />
-    </fragment>
+        app:startDestination="@id/navigation_books">
+
+        <fragment
+            android:id="@+id/navigation_books"
+            android:name="com.example.faithflow_bible.ui.bible.BooksFragment"
+            android:label="@string/ff_nav_bible"
+            tools:layout="@layout/fragment_books" />
+
+        <fragment
+            android:id="@+id/navigation_chapters"
+            android:name="com.example.faithflow_bible.ui.bible.ChaptersFragment"
+            android:label="@string/ff_nav_bible"
+            tools:layout="@layout/fragment_chapters">
+            <argument
+                android:name="book"
+                android:defaultValue="0"
+                app:argType="integer" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/navigation_reader"
+            android:name="com.example.faithflow_bible.ui.reader.ReaderFragment"
+            android:label="@string/ff_nav_bible"
+            tools:layout="@layout/fragment_reader">
+            <argument
+                android:name="book"
+                android:defaultValue="0"
+                app:argType="integer" />
+            <argument
+                android:name="chapter"
+                android:defaultValue="1"
+                app:argType="integer" />
+            <argument
+                android:name="verse"
+                android:defaultValue="0"
+                app:argType="integer" />
+        </fragment>
+    </navigation>
 
     <fragment
         android:id="@+id/navigation_saved"

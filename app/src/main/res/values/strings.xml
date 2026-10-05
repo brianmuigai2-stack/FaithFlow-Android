@@ -76,4 +76,7 @@
     <string name="ff_untitled">Untitled note</string>
     <string name="ff_write_something">Write something first</string>
     <string name="ff_recent_empty">Nothing here yet. Tap a verse while you read to save or highlight it.</string>
+<string name="ff_books_subtitle">Choose a book to start reading</string>
+<string name="ff_choose_chapter">Choose a chapter</string>
+<string name="ff_chapter_count">%1$d ch</string>
 </resources>
