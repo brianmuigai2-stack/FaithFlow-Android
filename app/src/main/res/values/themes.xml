@@ -1,6 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.FaithflowBible" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.FaithflowBible" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/ff_primary</item>
+        <item name="colorOnPrimary">@color/ff_on_primary</item>
+        <item name="colorPrimaryContainer">@color/ff_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/ff_on_primary_container</item>
+        <item name="colorSecondaryContainer">@color/ff_primary_container</item>
+        <item name="colorOnSecondaryContainer">@color/ff_on_primary_container</item>
+        <item name="android:colorBackground">@color/ff_background</item>
+        <item name="colorSurface">@color/ff_surface</item>
+        <item name="colorSurfaceContainer">@color/ff_surface</item>
+        <item name="colorOnSurface">@color/ff_text_primary</item>
+        <item name="colorOnSurfaceVariant">@color/ff_text_secondary</item>
+        <item name="colorOutline">@color/ff_outline</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -22,4 +34,9 @@
     <style name="Theme.FaithflowBible.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.FaithflowBible.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.FaithflowBible.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_navy</item>
+        <item name="windowSplashScreenAnimatedIcon">@android:color/transparent</item>
+        <item name="postSplashScreenTheme">@style/Theme.FaithflowBible</item>
+    </style>
 </resources>

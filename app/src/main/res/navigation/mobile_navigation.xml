@@ -3,29 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_transform">
+    app:startDestination="@id/navigation_home">
 
     <fragment
-        android:id="@+id/nav_transform"
-        android:name="com.example.faithflow_bible.ui.transform.TransformFragment"
-        android:label="@string/menu_transform"
-        tools:layout="@layout/fragment_transform" />
+        android:id="@+id/navigation_home"
+        android:name="com.example.faithflow_bible.ui.home.HomeFragment"
+        android:label="@string/ff_nav_home"
+        tools:layout="@layout/fragment_home" />
+
+    <!-- The Bible tab opens the reader for now; the books list will sit in front of it later -->
+    <fragment
+        android:id="@+id/navigation_bible"
+        android:name="com.example.faithflow_bible.ui.reader.ReaderFragment"
+        android:label="@string/ff_nav_bible"
+        tools:layout="@layout/fragment_reader">
+        <argument
+            android:name="book"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="chapter"
+            android:defaultValue="1"
+            app:argType="integer" />
+        <argument
+            android:name="verse"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
+
+    <!-- Placeholders until we build these screens -->
+    <fragment
+        android:id="@+id/navigation_saved"
+        android:name="com.example.faithflow_bible.ui.placeholder.ComingSoonFragment"
+        android:label="@string/ff_nav_saved" />
 
     <fragment
-        android:id="@+id/nav_reflow"
-        android:name="com.example.faithflow_bible.ui.reflow.ReflowFragment"
-        android:label="@string/menu_reflow"
-        tools:layout="@layout/fragment_reflow" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.faithflow_bible.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-
-    <fragment
-        android:id="@+id/nav_settings"
-        android:name="com.example.faithflow_bible.ui.settings.SettingsFragment"
-        android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_settings" />
+        android:id="@+id/navigation_notes"
+        android:name="com.example.faithflow_bible.ui.placeholder.ComingSoonFragment"
+        android:label="@string/ff_nav_notes" />
 </navigation>

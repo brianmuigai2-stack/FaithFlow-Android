@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
-
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_transform"
-            android:icon="@drawable/ic_camera_black_24dp"
-            android:title="@string/menu_transform" />
-        <item
-            android:id="@+id/nav_reflow"
-            android:icon="@drawable/ic_gallery_black_24dp"
-            android:title="@string/menu_reflow" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_slideshow_black_24dp"
-            android:title="@string/menu_slideshow" />
-    </group>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_nav_home"
+        android:title="@string/ff_nav_home" />
+    <item
+        android:id="@+id/navigation_bible"
+        android:icon="@drawable/ic_nav_bible"
+        android:title="@string/ff_nav_bible" />
+    <item
+        android:id="@+id/navigation_saved"
+        android:icon="@drawable/ic_nav_saved"
+        android:title="@string/ff_nav_saved" />
+    <item
+        android:id="@+id/navigation_notes"
+        android:icon="@drawable/ic_nav_notes"
+        android:title="@string/ff_nav_notes" />
 </menu>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ff_background">#0F1B2A</color>
+    <color name="ff_surface">#172638</color>
+    <color name="ff_primary">#8FB8E8</color>
+    <color name="ff_on_primary">#0B1F36</color>
+    <color name="ff_primary_container">#24415F</color>
+    <color name="ff_on_primary_container">#D6E6F7</color>
+    <color name="ff_text_primary">#EAF0F6</color>
+    <color name="ff_text_secondary">#9FB0C2</color>
+    <color name="ff_outline">#2A3D52</color>
+</resources>

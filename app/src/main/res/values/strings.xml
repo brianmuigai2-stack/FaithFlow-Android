@@ -22,4 +22,34 @@
     <string name="image_view_item_transform_content_description">Represents an image view in the
         item
     </string>
+    <string name="splash_logo_description">FaithFlow logo</string>
+    <string name="splash_title">FaithFlow</string>
+    <string name="splash_subtitle">Read · Pray · Grow · Together</string>
+    <string name="splash_tagline">Your Word. Anytime. Anywhere.</string>
+    <string name="ff_nav_home">Home</string>
+    <string name="ff_nav_bible">Bible</string>
+    <string name="ff_nav_saved">Saved</string>
+    <string name="ff_nav_notes">Notes</string>
+    <string name="ff_coming_soon">%1$s is on the way</string>
+    <string name="ff_settings">Settings</string>
+    <string name="ff_settings_soon">Settings are coming soon</string>
+    <string name="ff_verse_of_the_hour">VERSE OF THE HOUR</string>
+    <string name="ff_read_in_context">Read in Context</string>
+    <string name="ff_share">Share</string>
+    <string name="ff_quick_stats">Quick Stats</string>
+    <string name="ff_recent_saved">Recent Saved</string>
+    <string name="ff_highlights">Highlights</string>
+    <string name="ff_chapters">Chapters</string>
+    <string name="ff_back">Back</string>
+    <string name="ff_close">Close</string>
+    <string name="ff_previous_chapter">Previous chapter</string>
+    <string name="ff_next_chapter">Next chapter</string>
+    <string name="ff_text_size">Text size</string>
+    <string name="ff_translations_soon">More translations are coming soon</string>
+    <string name="ff_notes_soon">Notes are coming soon</string>
+    <string name="ff_verse_actions">Verse Actions</string>
+    <string name="ff_copy">Copy</string>
+    <string name="ff_note">Note</string>
+    <string name="ff_highlight">Highlight</string>
+    <string name="ff_copied">Copied to clipboard</string>
 </resources>
