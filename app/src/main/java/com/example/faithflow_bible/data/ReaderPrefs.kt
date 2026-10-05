@@ -23,6 +23,9 @@ data class VerseMark(
     val time: Long
 )
 
+/** Light / dark / follow the system. Stored as an index into [ThemeMode.entries]. */
+enum class ThemeMode { SYSTEM, LIGHT, DARK }
+
 /** Tiny on-device storage for reading settings, highlights and saved verses. */
 class ReaderPrefs(context: Context) {
 
@@ -33,6 +36,28 @@ class ReaderPrefs(context: Context) {
         get() = prefs.getInt("text_size", 1)
         set(value) {
             prefs.edit().putInt("text_size", value).apply()
+        }
+
+    var themeMode: ThemeMode
+        get() = prefs.getString("theme", null)
+            ?.let { name -> ThemeMode.entries.firstOrNull { it.name == name } }
+            ?: ThemeMode.SYSTEM
+        set(value) {
+            prefs.edit().putString("theme", value.name).apply()
+        }
+
+    /** Short code of the chosen translation, e.g. "KJV". */
+    var translationCode: String
+        get() = prefs.getString("translation", Translation.WEB.code) ?: Translation.WEB.code
+        set(value) {
+            prefs.edit().putString("translation", value).apply()
+        }
+
+    /** Whether hourly verse notifications are enabled. */
+    var notificationsEnabled: Boolean
+        get() = prefs.getBoolean("notifications", false)
+        set(value) {
+            prefs.edit().putBoolean("notifications", value).apply()
         }
 
     /** Index into [HighlightColors.swatches], or -1 when the verse isn't highlighted. */
@@ -49,6 +74,15 @@ class ReaderPrefs(context: Context) {
     }
 
     fun isSaved(key: String): Boolean = prefs.contains("saved:$key")
+
+    /** Removes every highlight and bookmark, leaving notes and settings alone. */
+    fun clearMarks() {
+        val editor = prefs.edit()
+        for (name in prefs.all.keys) {
+            if (name.substringBefore(':') in MARK_PREFIXES) editor.remove(name)
+        }
+        editor.apply()
+    }
 
     /** Returns true if the verse is saved after the toggle. */
     fun toggleSaved(key: String): Boolean {
@@ -93,5 +127,7 @@ class ReaderPrefs(context: Context) {
 
     companion object {
         fun verseKey(book: Int, chapter: Int, verse: Int) = "$book:$chapter:$verse"
+
+        private val MARK_PREFIXES = setOf("hl", "hlt", "saved")
     }
 }

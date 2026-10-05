@@ -31,7 +31,6 @@
     <string name="ff_nav_saved">Saved</string>
     <string name="ff_nav_notes">Notes</string>
     <string name="ff_settings">Settings</string>
-    <string name="ff_settings_soon">Settings are coming soon</string>
     <string name="ff_verse_of_the_hour">VERSE OF THE HOUR</string>
     <string name="ff_read_in_context">Read in Context</string>
     <string name="ff_share">Share</string>
@@ -44,7 +43,7 @@
     <string name="ff_previous_chapter">Previous chapter</string>
     <string name="ff_next_chapter">Next chapter</string>
     <string name="ff_text_size">Text size</string>
-    <string name="ff_translations_soon">More translations are coming soon</string>
+    <string name="ff_translation">Change translation</string>
     
     <string name="ff_verse_actions">Verse Actions</string>
     <string name="ff_copy">Copy</string>
@@ -78,5 +77,30 @@
     <string name="ff_recent_empty">Nothing here yet. Tap a verse while you read to save or highlight it.</string>
 <string name="ff_books_subtitle">Choose a book to start reading</string>
 <string name="ff_choose_chapter">Choose a chapter</string>
-<string name="ff_chapter_count">%1$d ch</string>
+    <string name="ff_chapter_count">%1$d ch</string>
+    <string name="ff_section_appearance">APPEARANCE</string>
+    <string name="ff_section_reading">READING</string>
+    <string name="ff_section_data">YOUR DATA</string>
+    <string name="ff_theme_label">Theme</string>
+    <string name="ff_theme_system">System</string>
+    <string name="ff_theme_light">Light</string>
+    <string name="ff_theme_dark">Dark</string>
+    <string name="ff_theme_hint">System follows your phone\u2019s light or dark setting.</string>
+    <string name="ff_default_text_size">Default text size</string>
+    <string name="ff_size_small">Small</string>
+    <string name="ff_size_medium">Medium</string>
+    <string name="ff_size_large">Large</string>
+    <string name="ff_preview_reference">John 3:16 (WEB)</string>
+    <string name="ff_preview_body">For God so loved the world, that he gave his one and only Son, that whoever believes in him should not perish, but have eternal life.</string>
+    <string name="ff_clear_marks">Clear highlights and bookmarks</string>
+    <string name="ff_clear_marks_hint">Your notes and settings are not affected.</string>
+    <string name="ff_clear_marks_q">Clear all highlights and bookmarks?</string>
+    <string name="ff_clear_marks_body">This removes %1$d saved and highlighted verses. This cannot be undone.</string>
+    <string name="ff_nothing_to_clear">Nothing saved or highlighted yet</string>
+    <string name="ff_marks_cleared">Highlights and bookmarks cleared</string>
+    <string name="ff_clear">Clear</string>
+    <string name="ff_section_notifications">NOTIFICATIONS</string>
+    <string name="ff_notifications_label">Hourly verse</string>
+    <string name="ff_notifications_hourly">Receive a Bible verse every hour</string>
+    <string name="ff_notifications_hint">A notification will appear at the top of each hour with the verse of the hour in your chosen translation.</string>
 </resources>

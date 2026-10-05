@@ -24,7 +24,7 @@ class RecentSavedAdapter(
         with(holder.binding) {
             reference.text = fav.reference
             preview.text = "\u201C${fav.text}\u201D"
-            translation.text = "WEB"
+            translation.text = fav.translation
             // highlighted verses show their highlight colour, saved-only verses show teal
             iconBg.setCardBackgroundColor(HighlightColors.swatches.getOrNull(fav.highlight) ?: TEAL)
             root.setOnClickListener { onClick(fav) }

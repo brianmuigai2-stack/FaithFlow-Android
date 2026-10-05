@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.faithflow_bible.data.BibleRepository
 import com.example.faithflow_bible.data.ChapterVerse
 import com.example.faithflow_bible.data.ReaderPrefs
+import com.example.faithflow_bible.data.Translation
 import java.util.concurrent.Executors
 
 sealed interface ReaderRow {
@@ -21,6 +22,7 @@ sealed interface ReaderRow {
 
 data class ReaderState(
     val bookName: String,
+    val translation: Translation,
     val rows: List<ReaderRow>,
     val hasPrevious: Boolean,
     val hasNext: Boolean,
@@ -43,6 +45,12 @@ class ReaderViewModel(app: Application) : AndroidViewModel(app) {
         private set
     val bookName: String get() = repo.books[bookIndex].name
 
+    /** Everything bundled in assets/bible, WEB first. */
+    val translations: List<Translation> get() = repo.availableTranslations
+
+    /** The translation currently on screen. */
+    val translation: Translation get() = repo.translation
+
     @Volatile
     private var loaded: List<ChapterVerse> = emptyList()
     private var focusVerse = 0
@@ -58,10 +66,21 @@ class ReaderViewModel(app: Application) : AndroidViewModel(app) {
         bookIndex = b
         this.chapter = c
         focusVerse = verse
+        load(b, c, verse, scroll = true)
+    }
+
+    /** Switching translation keeps the reader on the same chapter and scroll position. */
+    fun selectTranslation(translation: Translation) {
+        if (translation == repo.translation) return
+        repo.translation = translation
+        if (bookIndex != -1) load(bookIndex, chapter, focusVerse, scroll = false)
+    }
+
+    private fun load(b: Int, c: Int, focus: Int, scroll: Boolean) {
         executor.execute {
             val verses = repo.loadChapter(b, c)
             loaded = verses
-            _state.postValue(buildState(b, c, verses, verse, scroll = true))
+            _state.postValue(buildState(b, c, verses, focus, scroll))
         }
     }
 
@@ -107,6 +126,7 @@ class ReaderViewModel(app: Application) : AndroidViewModel(app) {
         }
         return ReaderState(
             bookName = book.name,
+            translation = repo.translation,
             rows = rows,
             hasPrevious = b > 0 || c > 1,
             hasNext = b < repo.books.lastIndex || c < book.chapterCount,

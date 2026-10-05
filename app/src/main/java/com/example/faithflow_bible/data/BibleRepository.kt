@@ -6,6 +6,18 @@ import org.json.JSONObject
 
 enum class Testament { OLD, NEW }
 
+/** A bundled translation: the code shown on the reader's pill, plus its asset folder. */
+enum class Translation(val code: String, val label: String, val folder: String) {
+    WEB("WEB", "World English Bible", "web"),
+    KJV("KJV", "King James Version", "kjv"),
+    SW("SW", "Biblia ya Kiswahili", "swahili");
+
+    companion object {
+        fun fromCode(code: String?): Translation =
+            entries.firstOrNull { it.code == code } ?: WEB
+    }
+}
+
 data class BookInfo(
     val index: Int,
     val name: String,
@@ -16,12 +28,30 @@ data class BookInfo(
 data class VerseRef(val bookIndex: Int, val chapter: Int, val verse: Int)
 data class ChapterVerse(val number: Int, val text: String)
 
-/** Reads the bundled World English Bible from app/src/main/assets/bible. */
+/** Reads the bundled translations from app/src/main/assets/bible. */
 class BibleRepository private constructor(context: Context) {
 
     private val assets = context.applicationContext.assets
+    private val prefs = ReaderPrefs(context)
     val books: List<BookInfo> = loadIndex()
-    private val cache = HashMap<Int, JSONArray>()
+    private val cache = HashMap<String, JSONArray>()
+
+    /** Only the translations whose folder is actually bundled show up in the picker. */
+    val availableTranslations: List<Translation> = Translation.entries.filter { isBundled(it) }
+
+    /** The translation every screen reads in; kept in [ReaderPrefs] between launches. */
+    var translation: Translation
+        get() = Translation.fromCode(prefs.translationCode)
+            .takeIf { it in availableTranslations }
+            ?: availableTranslations.firstOrNull()
+            ?: Translation.WEB
+        set(value) {
+            prefs.translationCode = value.code
+        }
+
+    private fun isBundled(translation: Translation): Boolean =
+        runCatching { !assets.list("bible/${translation.folder}").isNullOrEmpty() }
+            .getOrDefault(false)
 
     private fun read(path: String): String =
         assets.open(path).bufferedReader().use { it.readText() }
@@ -54,12 +84,17 @@ class BibleRepository private constructor(context: Context) {
 
     /** Blocking (parses a book on first use), so call it off the main thread. */
     @Synchronized
-    fun loadChapter(bookIndex: Int, chapter: Int): List<ChapterVerse> {
-        val chapters = cache[bookIndex] ?: JSONObject(read("bible/web/" + books[bookIndex].file))
+    fun loadChapter(
+        bookIndex: Int, chapter: Int, translation: Translation = this.translation
+    ): List<ChapterVerse> {
+        val key = "${translation.code}:$bookIndex"
+        val chapters = cache[key] ?: JSONObject(
+            read("bible/${translation.folder}/" + books[bookIndex].file)
+        )
             .getJSONArray("chapters")
             .also {
                 if (cache.size >= 3) cache.clear()
-                cache[bookIndex] = it
+                cache[key] = it
             }
         val verses = chapters.getJSONArray(chapter - 1)
         return List(verses.length()) { i ->

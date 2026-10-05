@@ -43,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:contentDescription="@string/ff_translation"
             android:focusable="true"
             app:cardBackgroundColor="@color/ff_primary_container"
             app:cardCornerRadius="14dp"
@@ -50,6 +51,7 @@
             app:strokeWidth="0dp">
 
             <TextView
+                android:id="@+id/translationLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="12dp"

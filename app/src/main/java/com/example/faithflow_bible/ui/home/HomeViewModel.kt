@@ -26,7 +26,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     private val _ui = MutableLiveData<HomeUi>()
     val ui: LiveData<HomeUi> = _ui
 
-    fun verseOfTheHour(): Verse = SampleVerses.verseOfTheHour()
+    fun verseOfTheHour(): Verse = SampleVerses.verseOfTheHour(getApplication())
 
     /** Re-reads the reader's highlights and saves. */
     fun refresh() {

@@ -8,10 +8,8 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.faithflow_bible.R
 import com.example.faithflow_bible.data.ReaderPrefs
 import com.example.faithflow_bible.databinding.FragmentReaderBinding
-import com.google.android.material.snackbar.Snackbar
 
 class ReaderFragment : Fragment() {
 
@@ -57,9 +55,7 @@ class ReaderFragment : Fragment() {
         binding.btnPrev.setOnClickListener { viewModel.previous() }
         binding.btnNext.setOnClickListener { viewModel.next() }
         binding.btnTextSize.setOnClickListener { showTextSizeMenu(it) }
-        binding.translationPill.setOnClickListener {
-            Snackbar.make(binding.root, R.string.ff_translations_soon, Snackbar.LENGTH_SHORT).show()
-        }
+        binding.translationPill.setOnClickListener { showTranslationMenu(it) }
 
         // The verse menu tells us when a highlight changed.
         childFragmentManager.setFragmentResultListener(
@@ -71,6 +67,7 @@ class ReaderFragment : Fragment() {
 
     private fun render(state: ReaderState) {
         binding.bookTitle.text = state.bookName
+        binding.translationLabel.text = state.translation.code
         setEnabled(binding.btnPrev, state.hasPrevious)
         setEnabled(binding.btnNext, state.hasNext)
 
@@ -104,6 +101,21 @@ class ReaderFragment : Fragment() {
         popup.setOnMenuItemClickListener { item ->
             prefs.textSizeIndex = item.itemId
             adapter.setTextSize(textSizes[item.itemId])
+            true
+        }
+        popup.show()
+    }
+
+    private fun showTranslationMenu(anchor: View) {
+        val translations = viewModel.translations
+        val popup = PopupMenu(requireContext(), anchor)
+        translations.forEachIndexed { i, translation ->
+            popup.menu.add(0, i, i, "${translation.code} · ${translation.label}")
+        }
+        popup.menu.setGroupCheckable(0, true, true)
+        popup.menu.getItem(translations.indexOf(viewModel.translation).coerceAtLeast(0)).isChecked = true
+        popup.setOnMenuItemClickListener { item ->
+            translations.getOrNull(item.itemId)?.let(viewModel::selectTranslation)
             true
         }
         popup.show()

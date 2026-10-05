@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.faithflow_bible.R
 import com.example.faithflow_bible.data.BibleRepository
 import com.example.faithflow_bible.data.Verse
 import com.example.faithflow_bible.databinding.FragmentHomeBinding
 import com.example.faithflow_bible.ui.openBible
-import com.google.android.material.snackbar.Snackbar
 
 class HomeFragment : Fragment() {
 
@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
 
         binding.btnReadContext.setOnClickListener { currentVerse?.let { openInBible(it) } }
         binding.btnSettings.setOnClickListener {
-            Snackbar.make(binding.root, R.string.ff_settings_soon, Snackbar.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.navigation_settings)
         }
     }
 

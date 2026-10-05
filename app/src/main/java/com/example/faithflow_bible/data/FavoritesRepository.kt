@@ -8,6 +8,7 @@ data class FavoriteVerse(
     val verse: Int,
     val reference: String,
     val text: String,
+    val translation: String,
     val highlight: Int,
     val saved: Boolean
 )
@@ -28,12 +29,14 @@ class FavoritesRepository(context: Context) {
 
     /** Blocking, so call it off the main thread. */
     fun load(): List<FavoriteVerse> {
+        val translation = bible.translation
         val chapterCache = HashMap<Pair<Int, Int>, Map<Int, String>>()
         return prefs.allMarks().mapNotNull { mark ->
             val book = bible.books.getOrNull(mark.book) ?: return@mapNotNull null
             if (mark.chapter < 1 || mark.chapter > book.chapterCount) return@mapNotNull null
             val verses = chapterCache.getOrPut(mark.book to mark.chapter) {
-                bible.loadChapter(mark.book, mark.chapter).associate { it.number to it.text }
+                bible.loadChapter(mark.book, mark.chapter, translation)
+                    .associate { it.number to it.text }
             }
             val text = verses[mark.verse] ?: return@mapNotNull null
             FavoriteVerse(
@@ -42,6 +45,7 @@ class FavoritesRepository(context: Context) {
                 verse = mark.verse,
                 reference = "${book.name} ${mark.chapter}:${mark.verse}",
                 text = text.replace("\n", " "),
+                translation = translation.code,
                 highlight = mark.highlight,
                 saved = mark.saved
             )

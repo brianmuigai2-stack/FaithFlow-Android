@@ -13,17 +13,11 @@
         <item name="colorOnSurface">@color/ff_text_primary</item>
         <item name="colorOnSurfaceVariant">@color/ff_text_secondary</item>
         <item name="colorOutline">@color/ff_outline</item>
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <!-- Status bar: transparent for edge-to-edge -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
 
     <style name="Theme.FaithflowBible.NoActionBar">
@@ -38,5 +32,17 @@
         <item name="windowSplashScreenBackground">@color/splash_window</item>
         <item name="windowSplashScreenAnimatedIcon">@android:color/transparent</item>
         <item name="postSplashScreenTheme">@style/Theme.FaithflowBible</item>
+    </style>
+
+    <!-- Small uppercase heading used above each group on the Settings screen.
+         parent="" is required: without it AAPT would look for a Widget.FaithflowBible style. -->
+    <style name="Widget.FaithflowBible.SectionHeader" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textColor">@color/ff_text_secondary</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

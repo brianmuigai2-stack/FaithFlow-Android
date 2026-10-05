@@ -12,8 +12,11 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.example.faithflow_bible.data.ReaderPrefs
+import com.example.faithflow_bible.data.ThemeMode
 import com.example.faithflow_bible.databinding.ActivitySplashBinding
 
 @SuppressLint("CustomSplashScreen")
@@ -26,6 +29,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Must run before super.onCreate. Hands off from the system splash to our own layout.
         installSplashScreen()
+        applyTheme()
         super.onCreate(savedInstanceState)
 
         binding = ActivitySplashBinding.inflate(layoutInflater)
@@ -33,6 +37,18 @@ class SplashActivity : AppCompatActivity() {
 
         setStartState()
         binding.root.post { playIntro() }
+    }
+
+    /** Honour the saved theme before any view inflates, so the app never flashes the wrong one. */
+    private fun applyTheme() {
+        val mode = ReaderPrefs(this).themeMode
+        AppCompatDelegate.setDefaultNightMode(
+            when (mode) {
+                ThemeMode.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+                ThemeMode.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+                ThemeMode.SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            }
+        )
     }
 
     /** Everything starts hidden / offset so the animations have somewhere to travel from. */

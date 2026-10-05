@@ -76,4 +76,10 @@
             android:defaultValue="0"
             app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.faithflow_bible.ui.settings.SettingsFragment"
+        android:label="@string/ff_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
