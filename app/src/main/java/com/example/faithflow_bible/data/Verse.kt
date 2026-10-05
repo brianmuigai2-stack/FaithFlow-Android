@@ -23,12 +23,6 @@ object SampleVerses {
         Verse("John 3:16", "WEB", "For God so loved the world, that he gave his one and only Son, that whoever believes in him should not perish, but have eternal life.", "Love")
     )
 
-    val recentSaved = listOf(
-        Verse("John 3:16", "WEB", "For God so loved the world, that he gave his one and only Son, that whoever believes in him should not perish, but have eternal life.", "Love"),
-        Verse("Psalm 23:1", "WEB", "Yahweh is my shepherd: I shall lack nothing.", "Peace"),
-        Verse("Philippians 4:13", "WEB", "I can do all things through Christ, who strengthens me.", "Strength")
-    )
-
     /** Changes every hour, and cycles through the pool. */
     fun verseOfTheHour(): Verse {
         val now = Calendar.getInstance()

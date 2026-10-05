@@ -31,14 +31,26 @@
             app:argType="integer" />
     </fragment>
 
-    <!-- Placeholders until we build these screens -->
     <fragment
         android:id="@+id/navigation_saved"
-        android:name="com.example.faithflow_bible.ui.placeholder.ComingSoonFragment"
-        android:label="@string/ff_nav_saved" />
+        android:name="com.example.faithflow_bible.ui.favorites.FavoritesFragment"
+        android:label="@string/ff_nav_saved"
+        tools:layout="@layout/fragment_favorites" />
 
     <fragment
         android:id="@+id/navigation_notes"
-        android:name="com.example.faithflow_bible.ui.placeholder.ComingSoonFragment"
-        android:label="@string/ff_nav_notes" />
+        android:name="com.example.faithflow_bible.ui.notes.NotesFragment"
+        android:label="@string/ff_nav_notes"
+        tools:layout="@layout/fragment_notes" />
+
+    <fragment
+        android:id="@+id/navigation_note_editor"
+        android:name="com.example.faithflow_bible.ui.notes.NoteEditorFragment"
+        android:label="@string/ff_nav_notes"
+        tools:layout="@layout/fragment_note_editor">
+        <argument
+            android:name="note_id"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 </navigation>

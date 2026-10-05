@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavOptions
-import androidx.navigation.fragment.findNavController
 import com.example.faithflow_bible.R
 import com.example.faithflow_bible.data.BibleRepository
 import com.example.faithflow_bible.data.Verse
 import com.example.faithflow_bible.databinding.FragmentHomeBinding
+import com.example.faithflow_bible.ui.openBible
 import com.google.android.material.snackbar.Snackbar
 
 class HomeFragment : Fragment() {
@@ -20,6 +20,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: HomeViewModel
+    private lateinit var recentAdapter: RecentSavedAdapter
     private var currentVerse: Verse? = null
 
     override fun onCreateView(
@@ -33,12 +34,17 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
-        binding.statSavedCount.text = viewModel.savedCount.toString()
-        binding.statHighlightsCount.text = viewModel.highlightCount.toString()
-        binding.statChaptersCount.text = viewModel.chaptersRead.toString()
+        recentAdapter = RecentSavedAdapter { openBible(it.bookIndex, it.chapter, it.verse) }
+        binding.recentList.adapter = recentAdapter
 
-        binding.recentList.adapter = RecentSavedAdapter { openInBible(it) }
-            .also { it.submitList(viewModel.recentSaved) }
+        viewModel.ui.observe(viewLifecycleOwner) { ui ->
+            binding.statSavedCount.text = ui.saved.toString()
+            binding.statHighlightsCount.text = ui.highlighted.toString()
+            binding.statChaptersCount.text = ui.chapters.toString()
+            recentAdapter.submitList(ui.recent)
+            binding.recentList.isVisible = ui.recent.isNotEmpty()
+            binding.recentEmpty.isVisible = ui.recent.isEmpty()
+        }
 
         binding.btnReadContext.setOnClickListener { currentVerse?.let { openInBible(it) } }
         binding.btnSettings.setOnClickListener {
@@ -46,10 +52,12 @@ class HomeFragment : Fragment() {
         }
     }
 
-    // Re-checked every time the screen comes back, so the verse rolls over on the hour.
+    // Re-checked every time the screen comes back: the verse rolls over on the hour,
+    // and the stats pick up anything saved or highlighted in the meantime.
     override fun onStart() {
         super.onStart()
         showVerseOfTheHour(viewModel.verseOfTheHour())
+        viewModel.refresh()
     }
 
     private fun showVerseOfTheHour(verse: Verse) {
@@ -60,20 +68,9 @@ class HomeFragment : Fragment() {
         binding.btnShare.setOnClickListener { share(verse) }
     }
 
-    /** Opens the Bible tab on the verse's chapter, scrolled to the verse. */
     private fun openInBible(verse: Verse) {
         val ref = BibleRepository.get(requireContext()).parseReference(verse.reference)
-        val args = Bundle()
-        if (ref != null) {
-            args.putInt("book", ref.bookIndex)
-            args.putInt("chapter", ref.chapter)
-            args.putInt("verse", ref.verse)
-        }
-        val options = NavOptions.Builder()
-            .setPopUpTo(R.id.navigation_home, false)
-            .setLaunchSingleTop(true)
-            .build()
-        findNavController().navigate(R.id.navigation_bible, args, options)
+        if (ref != null) openBible(ref.bookIndex, ref.chapter, ref.verse) else openBible()
     }
 
     private fun share(verse: Verse) {

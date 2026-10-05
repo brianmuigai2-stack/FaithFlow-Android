@@ -30,7 +30,6 @@
     <string name="ff_nav_bible">Bible</string>
     <string name="ff_nav_saved">Saved</string>
     <string name="ff_nav_notes">Notes</string>
-    <string name="ff_coming_soon">%1$s is on the way</string>
     <string name="ff_settings">Settings</string>
     <string name="ff_settings_soon">Settings are coming soon</string>
     <string name="ff_verse_of_the_hour">VERSE OF THE HOUR</string>
@@ -46,10 +45,35 @@
     <string name="ff_next_chapter">Next chapter</string>
     <string name="ff_text_size">Text size</string>
     <string name="ff_translations_soon">More translations are coming soon</string>
-    <string name="ff_notes_soon">Notes are coming soon</string>
+    
     <string name="ff_verse_actions">Verse Actions</string>
     <string name="ff_copy">Copy</string>
     <string name="ff_note">Note</string>
     <string name="ff_highlight">Highlight</string>
     <string name="ff_copied">Copied to clipboard</string>
+    <string name="ff_favorites">Favorites</string>
+    <string name="ff_highlighted">Highlighted</string>
+    <string name="ff_bookmarked">Bookmarked</string>
+    <string name="ff_no_saved_title">No saved verses yet</string>
+    <string name="ff_no_saved_body">Save or highlight verses while you read and they will show up here.</string>
+    <string name="ff_no_highlights_title">No highlights yet</string>
+    <string name="ff_browse_bible">Browse Bible</string>
+    <string name="ff_no_notes_title">No notes yet</string>
+    <string name="ff_no_notes_body">Create your first note to keep your thoughts close.</string>
+    <string name="ff_create_note">Create Note</string>
+    <string name="ff_add_note">Add note</string>
+    <string name="ff_new_note">New Note</string>
+    <string name="ff_edit_note">Edit Note</string>
+    <string name="ff_title">Title</string>
+    <string name="ff_bible_reference">Bible Reference</string>
+    <string name="ff_content">Content</string>
+    <string name="ff_save">Save</string>
+    <string name="ff_saved_indicator">\u2713 Saved</string>
+    <string name="ff_delete_note">Delete note</string>
+    <string name="ff_delete_note_q">Delete this note?</string>
+    <string name="ff_delete">Delete</string>
+    <string name="ff_cancel">Cancel</string>
+    <string name="ff_untitled">Untitled note</string>
+    <string name="ff_write_something">Write something first</string>
+    <string name="ff_recent_empty">Nothing here yet. Tap a verse while you read to save or highlight it.</string>
 </resources>

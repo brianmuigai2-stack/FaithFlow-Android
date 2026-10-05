@@ -13,6 +13,16 @@ object HighlightColors {
     )
 }
 
+/** One verse the reader has highlighted and/or saved. */
+data class VerseMark(
+    val book: Int,
+    val chapter: Int,
+    val verse: Int,
+    val highlight: Int,
+    val saved: Boolean,
+    val time: Long
+)
+
 /** Tiny on-device storage for reading settings, highlights and saved verses. */
 class ReaderPrefs(context: Context) {
 
@@ -30,7 +40,11 @@ class ReaderPrefs(context: Context) {
 
     fun setHighlight(key: String, color: Int) {
         val editor = prefs.edit()
-        if (color < 0) editor.remove("hl:$key") else editor.putInt("hl:$key", color)
+        if (color < 0) {
+            editor.remove("hl:$key").remove("hlt:$key")
+        } else {
+            editor.putInt("hl:$key", color).putLong("hlt:$key", System.currentTimeMillis())
+        }
         editor.apply()
     }
 
@@ -43,6 +57,38 @@ class ReaderPrefs(context: Context) {
         if (nowSaved) editor.putLong("saved:$key", System.currentTimeMillis()) else editor.remove("saved:$key")
         editor.apply()
         return nowSaved
+    }
+
+    /** Every highlighted or saved verse, newest first. */
+    fun allMarks(): List<VerseMark> {
+        class Acc(var highlight: Int = -1, var saved: Boolean = false, var time: Long = 0L)
+
+        val found = LinkedHashMap<String, Acc>()
+        for ((name, value) in prefs.all) {
+            val prefix = name.substringBefore(':')
+            if (prefix != "hl" && prefix != "saved" && prefix != "hlt") continue
+            val acc = found.getOrPut(name.substringAfter(':')) { Acc() }
+            when (prefix) {
+                "hl" -> acc.highlight = (value as? Int) ?: -1
+                "saved" -> {
+                    acc.saved = true
+                    acc.time = maxOf(acc.time, (value as? Long) ?: 0L)
+                }
+                "hlt" -> acc.time = maxOf(acc.time, (value as? Long) ?: 0L)
+            }
+        }
+        return found.mapNotNull { (key, acc) ->
+            if (acc.highlight < 0 && !acc.saved) return@mapNotNull null
+            val parts = key.split(':')
+            if (parts.size != 3) return@mapNotNull null
+            val book = parts[0].toIntOrNull() ?: return@mapNotNull null
+            val chapter = parts[1].toIntOrNull() ?: return@mapNotNull null
+            val verse = parts[2].toIntOrNull() ?: return@mapNotNull null
+            VerseMark(book, chapter, verse, acc.highlight, acc.saved, acc.time)
+        }.sortedWith(
+            compareByDescending<VerseMark> { it.time }
+                .thenBy { it.book }.thenBy { it.chapter }.thenBy { it.verse }
+        )
     }
 
     companion object {

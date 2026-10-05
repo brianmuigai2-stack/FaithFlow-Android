@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import com.example.faithflow_bible.R
 import com.example.faithflow_bible.data.HighlightColors
 import com.example.faithflow_bible.data.ReaderPrefs
@@ -53,9 +54,7 @@ class VerseActionsSheet : BottomSheetDialogFragment() {
         binding.btnClose.setOnClickListener { dismiss() }
         binding.actionCopy.setOnClickListener { copy() }
         binding.actionShare.setOnClickListener { share() }
-        binding.actionNote.setOnClickListener {
-            Toast.makeText(requireContext(), R.string.ff_notes_soon, Toast.LENGTH_SHORT).show()
-        }
+        binding.actionNote.setOnClickListener { openNote() }
         binding.actionSave.setOnClickListener {
             prefs.toggleSaved(key)
             renderSaved()
@@ -122,6 +121,17 @@ class VerseActionsSheet : BottomSheetDialogFragment() {
         }
         startActivity(Intent.createChooser(send, null))
         dismiss()
+    }
+
+    /** Opens the note editor with this verse already quoted. */
+    private fun openNote() {
+        val nav = requireParentFragment().findNavController()
+        val extras = Bundle().apply {
+            putString("reference", reference.removeSuffix(" (WEB)"))
+            putString("quote", verseText)
+        }
+        dismiss()
+        nav.navigate(R.id.navigation_note_editor, extras)
     }
 
     private fun notifyChanged() {
