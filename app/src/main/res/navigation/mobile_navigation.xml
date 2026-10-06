@@ -51,6 +51,9 @@
                 android:name="verse"
                 android:defaultValue="0"
                 app:argType="integer" />
+            <!-- Destinations inside this nested graph cannot be referenced by ID
+                 from outside it, so the reader is reached via this deep link. -->
+            <deepLink app:uri="faithflow://reader/{book}/{chapter}/{verse}" />
         </fragment>
     </navigation>
 
@@ -82,4 +85,5 @@
         android:name="com.example.faithflow_bible.ui.settings.SettingsFragment"
         android:label="@string/ff_settings"
         tools:layout="@layout/fragment_settings" />
+
 </navigation>

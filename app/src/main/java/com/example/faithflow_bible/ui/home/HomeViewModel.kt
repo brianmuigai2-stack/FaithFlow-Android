@@ -6,9 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.faithflow_bible.data.FavoriteVerse
 import com.example.faithflow_bible.data.FavoritesRepository
-import com.example.faithflow_bible.data.SampleVerses
 import com.example.faithflow_bible.data.Verse
+import com.example.faithflow_bible.data.VerseRepository
 import com.example.faithflow_bible.data.stats
+import com.example.faithflow_bible.data.toHomeVerse
 import java.util.concurrent.Executors
 
 data class HomeUi(
@@ -21,12 +22,13 @@ data class HomeUi(
 class HomeViewModel(app: Application) : AndroidViewModel(app) {
 
     private val repo = FavoritesRepository(app)
+    private val verseRepository = VerseRepository(app)
     private val executor = Executors.newSingleThreadExecutor()
 
     private val _ui = MutableLiveData<HomeUi>()
     val ui: LiveData<HomeUi> = _ui
 
-    fun verseOfTheHour(): Verse = SampleVerses.verseOfTheHour(getApplication())
+    fun verseOfTheHour(): Verse = verseRepository.getVerseOfTheHour().toHomeVerse()
 
     /** Re-reads the reader's highlights and saves. */
     fun refresh() {
