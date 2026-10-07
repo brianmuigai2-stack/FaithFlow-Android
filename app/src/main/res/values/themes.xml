@@ -13,11 +13,11 @@
         <item name="colorOnSurface">@color/ff_text_primary</item>
         <item name="colorOnSurfaceVariant">@color/ff_text_secondary</item>
         <item name="colorOutline">@color/ff_outline</item>
-        <!-- Status bar: transparent for edge-to-edge -->
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
+        <!-- Status bar: deep navy, white icons -->
+        <item name="android:statusBarColor">#163A5F</item>
+        <item name="android:navigationBarColor">@color/ff_background</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
     </style>
 
     <style name="Theme.FaithflowBible.NoActionBar">

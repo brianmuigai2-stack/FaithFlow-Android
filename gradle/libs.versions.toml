@@ -1,4 +1,5 @@
 [versions]
+workManager = "2.9.1"
 coreSplashscreen = "1.0.1"
 agp = "8.13.2"
 kotlin = "2.0.21"
@@ -26,6 +27,7 @@ lifecycleCompose = "2.8.3"
 kotlinComposePlugin = "2.0.21"
 
 [libraries]
+androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workManager" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

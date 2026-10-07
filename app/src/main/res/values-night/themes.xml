@@ -1,5 +1,4 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Theme.FaithflowBible" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ff_primary</item>
         <item name="colorOnPrimary">@color/ff_on_primary</item>
@@ -13,16 +12,10 @@
         <item name="colorOnSurface">@color/ff_text_primary</item>
         <item name="colorOnSurfaceVariant">@color/ff_text_secondary</item>
         <item name="colorOutline">@color/ff_outline</item>
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <!-- Status bar: deep dark navy, light icons -->
+        <item name="android:statusBarColor">#0F1B2A</item>
+        <item name="android:navigationBarColor">@color/ff_background</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
     </style>
 </resources>

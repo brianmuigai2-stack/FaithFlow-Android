@@ -1,9 +1,14 @@
 package com.example.faithflow_bible.ui.settings
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.faithflow_bible.R
@@ -19,6 +24,19 @@ class SettingsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: SettingsViewModel
     private var suppressCallbacks = false
+
+    private val notificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) {
+            viewModel.setNotificationsEnabled(true)
+        } else {
+            // Permission denied — uncheck the toggle without triggering the listener
+            suppressCallbacks = true
+            binding.notificationToggle.isChecked = false
+            suppressCallbacks = false
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -59,6 +77,19 @@ class SettingsFragment : Fragment() {
 
         binding.notificationToggle.setOnCheckedChangeListener { _, isChecked ->
             if (suppressCallbacks) return@setOnCheckedChangeListener
+            if (isChecked && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                val granted = ContextCompat.checkSelfPermission(
+                    requireContext(), Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+                if (!granted) {
+                    // Suppress so the toggle doesn't fire viewModel before permission is granted
+                    suppressCallbacks = true
+                    binding.notificationToggle.isChecked = false
+                    suppressCallbacks = false
+                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    return@setOnCheckedChangeListener
+                }
+            }
             viewModel.setNotificationsEnabled(isChecked)
         }
 
