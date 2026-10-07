@@ -1,6 +1,5 @@
 package com.example.faithflow_bible.ui.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +7,19 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.faithflow_bible.R
 import com.example.faithflow_bible.data.BibleRepository
+import com.example.faithflow_bible.data.BibleVerse
+import com.example.faithflow_bible.data.Translation
 import com.example.faithflow_bible.data.Verse
 import com.example.faithflow_bible.databinding.FragmentHomeBinding
+import com.example.faithflow_bible.share.VerseShareManager
 import com.example.faithflow_bible.ui.openBible
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
 
@@ -74,14 +80,28 @@ class HomeFragment : Fragment() {
     }
 
     private fun share(verse: Verse) {
-        val send = Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain"
-            putExtra(
-                Intent.EXTRA_TEXT,
-                "\u201C${verse.text}\u201D\n\u2014 ${verse.reference} (${verse.translation})\n\nShared from FaithFlow"
-            )
+        val ctx = requireContext()
+        val repo = BibleRepository.get(ctx)
+        val ref = repo.parseReference(verse.reference)
+        val translation = Translation.fromCode(verse.translation)
+        val bookName = ref?.let { repo.book(it.bookIndex)?.name } ?: verse.reference.substringBefore(" ")
+        val bibleVerse = BibleVerse(
+            reference = verse.reference,
+            book = bookName,
+            chapter = ref?.chapter ?: 1,
+            verse = ref?.verse ?: 1,
+            text = verse.text,
+            translation = translation.label,
+            abbreviation = translation.code,
+            theme = verse.tag
+        )
+        binding.btnShare.isEnabled = false
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                VerseShareManager(ctx).shareSingleVerse(bibleVerse)
+            }
+            if (_binding != null) binding.btnShare.isEnabled = true
         }
-        startActivity(Intent.createChooser(send, null))
     }
 
     override fun onDestroyView() {

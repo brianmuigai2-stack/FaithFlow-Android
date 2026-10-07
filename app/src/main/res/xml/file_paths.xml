@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <cache-path name="verse_cards" path="verse_cards/" />
+    <external-cache-path name="verse_cards_external" path="verse_cards/" />
+    <files-path name="verse_cards_files" path="verse_cards/" />
+</paths>

@@ -11,13 +11,20 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.faithflow_bible.R
+import com.example.faithflow_bible.data.BibleRepository
+import com.example.faithflow_bible.data.BibleVerse
 import com.example.faithflow_bible.data.HighlightColors
 import com.example.faithflow_bible.data.ReaderPrefs
 import com.example.faithflow_bible.databinding.SheetVerseActionsBinding
+import com.example.faithflow_bible.share.VerseShareManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.card.MaterialCardView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /** The "Verse Actions" menu: copy, note, share, save and highlight. */
 class VerseActionsSheet : BottomSheetDialogFragment() {
@@ -112,15 +119,30 @@ class VerseActionsSheet : BottomSheetDialogFragment() {
     }
 
     private fun share() {
-        val send = Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain"
-            putExtra(
-                Intent.EXTRA_TEXT,
-                "\u201C$verseText\u201D\n\u2014 $reference\n\nShared from FaithFlow"
-            )
+        val ctx = requireContext()
+        val repo = BibleRepository.get(ctx)
+        val translation = repo.translation
+        val bookName = requireArguments().getString(ARG_BOOK_NAME).orEmpty()
+        val chapter = requireArguments().getInt(ARG_CHAPTER)
+        val verse = requireArguments().getInt(ARG_VERSE)
+        val bibleVerse = BibleVerse(
+            reference = "$bookName $chapter:$verse",
+            book = bookName,
+            chapter = chapter,
+            verse = verse,
+            text = verseText,
+            translation = translation.label,
+            abbreviation = translation.code,
+            theme = ""
+        )
+        binding.actionShare.isEnabled = false
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                VerseShareManager(ctx).shareSingleVerse(bibleVerse)
+            }
+            if (_binding != null) binding.actionShare.isEnabled = true
+            dismiss()
         }
-        startActivity(Intent.createChooser(send, null))
-        dismiss()
     }
 
     /** Opens the note editor with this verse already quoted. */
