@@ -10,16 +10,38 @@
     <color name="splash_navy">#163A5F</color>
     <color name="splash_window">#475B63</color>
     <color name="splash_gold">#F2B84B</color>
-    <color name="ff_background">#F7F5F0</color>
+
+    <!-- Warm off-white background, not stark white -->
+    <color name="ff_background">#F4F1EC</color>
+    <!-- Card surface: pure white for contrast against warm background -->
     <color name="ff_surface">#FFFFFF</color>
-    <color name="ff_primary">#163A5F</color>
+
+    <!-- Primary: slightly softer navy, not too harsh -->
+    <color name="ff_primary">#1E4A7A</color>
     <color name="ff_on_primary">#FFFFFF</color>
-    <color name="ff_primary_container">#DCE8F4</color>
-    <color name="ff_on_primary_container">#163A5F</color>
-    <color name="ff_text_primary">#1B2733</color>
-    <color name="ff_text_secondary">#66727F</color>
-    <color name="ff_outline">#E3E0D8</color>
-    <color name="ff_accent_teal">#1FA39A</color>
-    <color name="ff_accent_gold">#F2B84B</color>
-    <color name="ff_accent_blue">#4C7FD8</color>
+    <color name="ff_primary_container">#DDE9F7</color>
+    <color name="ff_on_primary_container">#1E4A7A</color>
+
+    <!-- Text: deep charcoal, high contrast on warm background -->
+    <color name="ff_text_primary">#1A252F</color>
+    <!-- Secondary text: darker warm gray, clearly readable -->
+    <color name="ff_text_secondary">#4A5568</color>
+
+    <!-- Outline: warm light gray -->
+    <color name="ff_outline">#E8E4DC</color>
+
+    <!-- Accents: slightly richer for light backgrounds -->
+    <color name="ff_accent_teal">#17A589</color>
+    <color name="ff_accent_gold">#D4A017</color>
+    <color name="ff_accent_blue">#2E86C1</color>
+
+    <!-- Status bar: navy blue, distinct from warm background -->
+    <color name="ff_status_bar">#163A5F</color>
+
+    <!-- Verse card: keep deep navy for contrast -->
+    <color name="ff_card_stroke">#E0DBD3</color>
+    <color name="ff_verse_card_bg">#1E4A7A</color>
+    <color name="ff_verse_card_text">#FFFFFF</color>
+    <color name="ff_verse_card_tag_bg">#2A5A8A</color>
+    <color name="ff_verse_card_stroke">#4A7AAA</color>
 </resources>

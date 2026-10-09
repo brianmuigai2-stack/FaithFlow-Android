@@ -86,4 +86,10 @@
         android:label="@string/ff_settings"
         tools:layout="@layout/fragment_settings" />
 
+    <fragment
+        android:id="@+id/navigation_info"
+        android:name="com.example.faithflow_bible.ui.info.InfoFragment"
+        android:label="About"
+        tools:layout="@layout/fragment_info" />
+
 </navigation>

@@ -13,8 +13,8 @@
         android:layout_height="56dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="8dp"
-        android:paddingEnd="16dp">
+        android:paddingStart="4dp"
+        android:paddingEnd="12dp">
 
         <ImageButton
             android:id="@+id/btnBack"
@@ -27,16 +27,33 @@
             android:src="@drawable/ic_arrow_back"
             app:tint="@color/ff_text_primary" />
 
-        <TextView
-            android:id="@+id/bookTitle"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="2dp"
             android:layout_weight="1"
-            android:textColor="@color/ff_text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tools:text="Genesis" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/bookTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="serif"
+                android:maxLines="1"
+                android:textColor="@color/ff_text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Genesis" />
+
+            <TextView
+                android:id="@+id/chapterSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/ff_text_secondary"
+                android:textSize="12sp"
+                tools:text="Chapter 1 · 31 verses" />
+        </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/translationPill"
@@ -66,6 +83,11 @@
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/ff_outline" />
+
     <!-- Chapter text -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chapterList"
@@ -73,9 +95,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:paddingStart="12dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="12dp"
+        android:paddingStart="20dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="20dp"
         android:paddingBottom="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_verse" />
@@ -118,6 +140,16 @@
             android:textSize="20sp"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/chapterIndicator"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textColor="@color/ff_text_secondary"
+            android:textSize="13sp"
+            tools:text="Chapter 1 of 50" />
 
         <ImageButton
             android:id="@+id/btnNext"

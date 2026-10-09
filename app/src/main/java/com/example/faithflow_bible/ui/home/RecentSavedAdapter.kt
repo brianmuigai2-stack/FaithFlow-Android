@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.faithflow_bible.data.FavoriteVerse
-import com.example.faithflow_bible.data.HighlightColors
 import com.example.faithflow_bible.databinding.ItemRecentSavedBinding
 
 /** Verse rows used on Home (recent) and on the Favorites screen. */
@@ -24,15 +23,8 @@ class RecentSavedAdapter(
         with(holder.binding) {
             reference.text = fav.reference
             preview.text = "\u201C${fav.text}\u201D"
-            translation.text = fav.translation
-            // highlighted verses show their highlight colour, saved-only verses show teal
-            iconBg.setCardBackgroundColor(HighlightColors.swatches.getOrNull(fav.highlight) ?: TEAL)
             root.setOnClickListener { onClick(fav) }
         }
-    }
-
-    private companion object {
-        val TEAL = 0xFF1FA39A.toInt()
     }
 }
 

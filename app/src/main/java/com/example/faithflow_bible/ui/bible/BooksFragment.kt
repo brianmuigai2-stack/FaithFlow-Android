@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -11,7 +12,6 @@ import com.example.faithflow_bible.R
 import com.example.faithflow_bible.data.BookInfo
 import com.example.faithflow_bible.databinding.FragmentBooksBinding
 
-/** The list of 66 books, split Old Testament / New Testament. */
 class BooksFragment : Fragment() {
 
     private var _binding: FragmentBooksBinding? = null
@@ -34,6 +34,10 @@ class BooksFragment : Fragment() {
         binding.booksList.adapter = adapter
 
         viewModel.rows.observe(viewLifecycleOwner) { adapter.submitList(it) }
+
+        binding.searchInput.doAfterTextChanged { text ->
+            viewModel.filter(text?.toString().orEmpty())
+        }
     }
 
     private fun openChapters(book: BookInfo) {

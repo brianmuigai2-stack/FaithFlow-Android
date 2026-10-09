@@ -26,7 +26,7 @@ data class ReaderState(
     val rows: List<ReaderRow>,
     val hasPrevious: Boolean,
     val hasNext: Boolean,
-    /** Row to bring into view, or -1 to leave the scroll position alone. */
+    val totalChapters: Int,
     val scrollToRow: Int
 )
 
@@ -130,6 +130,7 @@ class ReaderViewModel(app: Application) : AndroidViewModel(app) {
             rows = rows,
             hasPrevious = b > 0 || c > 1,
             hasNext = b < repo.books.lastIndex || c < book.chapterCount,
+            totalChapters = book.chapterCount,
             scrollToRow = scrollRow
         )
     }

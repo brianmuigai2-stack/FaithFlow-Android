@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.faithflow_bible.data.BibleRepository
 import com.example.faithflow_bible.data.BookInfo
 
-/** A testament heading or a book row, so one list can hold both. */
 sealed interface BooksRow {
     data class Header(val label: String) : BooksRow
     data class Book(val info: BookInfo) : BooksRow
@@ -16,14 +15,37 @@ sealed interface BooksRow {
 class BooksViewModel(app: Application) : AndroidViewModel(app) {
 
     private val repo = BibleRepository.get(app)
+    private val allRows: List<BooksRow> = buildList {
+        add(BooksRow.Header("Old Testament"))
+        repo.oldTestamentBooks.forEach { add(BooksRow.Book(it)) }
+        add(BooksRow.Header("New Testament"))
+        repo.newTestamentBooks.forEach { add(BooksRow.Book(it)) }
+    }
 
-    // The index is small and already loaded, so this is cheap enough to build inline.
-    val rows: LiveData<List<BooksRow>> = MutableLiveData(
-        buildList {
-            add(BooksRow.Header("Old Testament"))
-            repo.oldTestamentBooks.forEach { add(BooksRow.Book(it)) }
-            add(BooksRow.Header("New Testament"))
-            repo.newTestamentBooks.forEach { add(BooksRow.Book(it)) }
+    private val _rows = MutableLiveData(allRows)
+    val rows: LiveData<List<BooksRow>> = _rows
+
+    fun filter(query: String) {
+        if (query.isBlank()) {
+            _rows.value = allRows
+            return
         }
-    )
+        val q = query.trim().lowercase()
+        // Keep headers only if they have matching books beneath them
+        val filtered = mutableListOf<BooksRow>()
+        var pendingHeader: BooksRow.Header? = null
+        for (row in allRows) {
+            when (row) {
+                is BooksRow.Header -> pendingHeader = row
+                is BooksRow.Book -> if (row.info.name.lowercase().contains(q)) {
+                    if (pendingHeader != null) {
+                        filtered += pendingHeader
+                        pendingHeader = null
+                    }
+                    filtered += row
+                }
+            }
+        }
+        _rows.value = filtered
+    }
 }

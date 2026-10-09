@@ -60,6 +60,14 @@ class ReaderPrefs(context: Context) {
             prefs.edit().putBoolean("notifications", value).apply()
         }
 
+    var lastReadBook: Int
+        get() = prefs.getInt("last_book", -1)
+        set(value) { prefs.edit().putInt("last_book", value).apply() }
+
+    var lastReadChapter: Int
+        get() = prefs.getInt("last_chapter", 1)
+        set(value) { prefs.edit().putInt("last_chapter", value).apply() }
+
     /** Index into [HighlightColors.swatches], or -1 when the verse isn't highlighted. */
     fun highlightOf(key: String): Int = prefs.getInt("hl:$key", -1)
 

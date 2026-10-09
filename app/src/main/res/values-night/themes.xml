@@ -12,9 +12,9 @@
         <item name="colorOnSurface">@color/ff_text_primary</item>
         <item name="colorOnSurfaceVariant">@color/ff_text_secondary</item>
         <item name="colorOutline">@color/ff_outline</item>
-        <!-- Status bar: deep dark navy, light icons -->
-        <item name="android:statusBarColor">#0F1B2A</item>
-        <item name="android:navigationBarColor">@color/ff_background</item>
+        <!-- Solid deep navy blue status bar on dark theme, white icons -->
+        <item name="android:statusBarColor">@color/ff_status_bar</item>
+        <item name="android:navigationBarColor">@color/ff_surface</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
     </style>

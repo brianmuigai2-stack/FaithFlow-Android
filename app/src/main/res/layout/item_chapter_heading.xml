@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/chapterTitle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fontFamily="serif"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingTop="16dp"
+    android:paddingBottom="24dp"
     android:paddingStart="8dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="8dp"
-    android:paddingBottom="16dp"
-    android:textColor="@color/ff_text_primary"
-    android:textSize="30sp"
-    android:textStyle="bold"
-    tools:text="Genesis 1" />
+    android:paddingEnd="8dp">
+
+    <TextView
+        android:id="@+id/chapterTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:textColor="@color/ff_text_primary"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        tools:text="Genesis 1" />
+
+    <View
+        android:layout_width="48dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/ff_accent_gold" />
+
+</LinearLayout>

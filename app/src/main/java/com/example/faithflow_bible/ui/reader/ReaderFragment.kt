@@ -57,7 +57,6 @@ class ReaderFragment : Fragment() {
         binding.btnTextSize.setOnClickListener { showTextSizeMenu(it) }
         binding.translationPill.setOnClickListener { showTranslationMenu(it) }
 
-        // The verse menu tells us when a highlight changed.
         childFragmentManager.setFragmentResultListener(
             VerseActionsSheet.RESULT_KEY, viewLifecycleOwner
         ) { _, _ -> viewModel.refreshMarks() }
@@ -68,20 +67,21 @@ class ReaderFragment : Fragment() {
     private fun render(state: ReaderState) {
         binding.bookTitle.text = state.bookName
         binding.translationLabel.text = state.translation.code
+        binding.chapterSubtitle.text = "Chapter ${viewModel.chapter}"
+        binding.chapterIndicator.text = "Ch. ${viewModel.chapter} of ${state.totalChapters}"
         setEnabled(binding.btnPrev, state.hasPrevious)
         setEnabled(binding.btnNext, state.hasNext)
+
+        // Save last-read position
+        prefs.lastReadBook = viewModel.bookIndex
+        prefs.lastReadChapter = viewModel.chapter
 
         adapter.submitList(state.rows) {
             val row = state.scrollToRow
             if (row >= 0 && _binding != null) {
-                val layoutManager = binding.chapterList.layoutManager as LinearLayoutManager
-                if (row == 0) {
-                    layoutManager.scrollToPositionWithOffset(0, 0)
-                } else {
-                    layoutManager.scrollToPositionWithOffset(
-                        row, (96 * resources.displayMetrics.density).toInt()
-                    )
-                }
+                val lm = binding.chapterList.layoutManager as LinearLayoutManager
+                if (row == 0) lm.scrollToPositionWithOffset(0, 0)
+                else lm.scrollToPositionWithOffset(row, (96 * resources.displayMetrics.density).toInt())
             }
         }
     }
@@ -109,8 +109,8 @@ class ReaderFragment : Fragment() {
     private fun showTranslationMenu(anchor: View) {
         val translations = viewModel.translations
         val popup = PopupMenu(requireContext(), anchor)
-        translations.forEachIndexed { i, translation ->
-            popup.menu.add(0, i, i, "${translation.code} · ${translation.label}")
+        translations.forEachIndexed { i, t ->
+            popup.menu.add(0, i, i, "${t.code} · ${t.label}")
         }
         popup.menu.setGroupCheckable(0, true, true)
         popup.menu.getItem(translations.indexOf(viewModel.translation).coerceAtLeast(0)).isChecked = true

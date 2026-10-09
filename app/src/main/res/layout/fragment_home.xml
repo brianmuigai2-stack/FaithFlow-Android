@@ -25,316 +25,427 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/headerLogo"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:contentDescription="@string/splash_logo_description"
+                android:scaleType="centerCrop"
+                android:src="@drawable/logo" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/splash_title"
-                android:textColor="@color/ff_primary"
-                android:textSize="26sp"
-                android:textStyle="bold" />
+                android:layout_marginStart="10dp"
+                android:text="FAITHFLOW"
+                android:textColor="@color/ff_accent_gold"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08" />
+
+            <ImageButton
+                android:id="@+id/btnInfo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Info"
+                android:src="@drawable/ic_info"
+                app:tint="@color/ff_text_secondary"
+                tools:ignore="HardcodedText" />
 
             <ImageButton
                 android:id="@+id/btnSettings"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/ff_settings"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
+                android:contentDescription="Settings"
                 android:src="@drawable/ic_settings"
-                app:tint="@color/ff_text_primary" />
+                app:tint="@color/ff_text_secondary" />
+
         </LinearLayout>
 
-        <!-- Verse of the hour -->
+        <!-- Greeting -->
+        <TextView
+            android:id="@+id/greetingText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/ff_text_secondary"
+            android:textSize="14sp"
+            tools:text="Good evening," />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Verse of the hour"
+            android:textColor="@color/ff_text_primary"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <!-- Continue Reading card (hidden when no last-read position) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/continueReadingCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/ff_surface"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/ff_card_stroke"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.08"
+                        android:text="CONTINUE READING"
+                        android:textColor="@color/ff_accent_gold"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/continueBookTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="serif"
+                        android:textColor="@color/ff_text_primary"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        tools:text="Genesis 3" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_chevron_right"
+                    app:tint="@color/ff_accent_gold" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Verse of the Hour Card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardCornerRadius="22dp"
+            app:cardBackgroundColor="@color/ff_verse_card_bg"
+            app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
             app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_splash_gradient"
                 android:orientation="vertical"
-                android:padding="22dp">
+                android:padding="20dp">
 
+                <!-- Date + Translation row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/verseDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/ff_text_secondary"
+                        android:textSize="12sp"
+                        tools:text="Friday, October 9, 2026" />
+
+                    <TextView
+                        android:id="@+id/verseTranslation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/ff_text_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        tools:text="WEB" />
+
+                </LinearLayout>
+
+                <!-- Tag pill -->
                 <TextView
+                    android:id="@+id/verseTag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:letterSpacing="0.12"
-                    android:text="@string/ff_verse_of_the_hour"
-                    android:textColor="#B3FFFFFF"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/ff_verse_card_tag_bg"
+                    android:drawablePadding="4dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="4dp"
+                    android:textColor="@color/ff_accent_gold"
                     android:textSize="11sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="COURAGE" />
 
                 <TextView
                     android:id="@+id/verseText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
-                    android:fontFamily="serif"
-                    android:lineSpacingExtra="4dp"
-                    android:textColor="@android:color/white"
-                    android:textSize="22sp"
-                    tools:text="“Be still, and know that I am God.”" />
+                    android:lineSpacingMultiplier="1.3"
+                    android:textColor="@color/ff_verse_card_text"
+                    android:textSize="18sp"
+                    tools:text="\u201CBe strong, and let your heart take courage, all you who hope in Yahweh.\u201D" />
 
                 <TextView
                     android:id="@+id/verseReference"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textColor="#CCFFFFFF"
-                    android:textSize="14sp"
-                    tools:text="Psalm 46:10 (WEB)" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    app:cardBackgroundColor="#33FFFFFF"
-                    app:cardCornerRadius="14dp"
-                    app:cardElevation="0dp"
-                    app:strokeWidth="0dp">
-
-                    <TextView
-                        android:id="@+id/verseTag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="14dp"
-                        android:paddingTop="6dp"
-                        android:paddingEnd="14dp"
-                        android:paddingBottom="6dp"
-                        android:textColor="@android:color/white"
-                        android:textSize="12sp"
-                        tools:text="Peace" />
-                </com.google.android.material.card.MaterialCardView>
+                    android:textColor="@color/ff_accent_gold"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="Psalms 31:24" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="start"
                     android:orientation="horizontal">
 
-                    <com.google.android.material.button.MaterialButton
+                    <Button
                         android:id="@+id/btnReadContext"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:backgroundTint="@android:color/white"
-                        android:maxLines="1"
-                        android:text="@string/ff_read_in_context"
-                        android:textColor="@color/splash_navy"
-                        android:textSize="13sp"
-                        app:cornerRadius="14dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnShare"
                         style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_weight="2"
-                        android:maxLines="1"
-                        android:text="@string/ff_share"
-                        android:textColor="@android:color/white"
-                        android:textSize="13sp"
-                        app:cornerRadius="14dp"
-                        app:icon="@drawable/ic_share"
-                        app:iconTint="@android:color/white"
-                        app:strokeColor="#99FFFFFF" />
+                        android:layout_marginEnd="12dp"
+                        android:drawableStart="@drawable/ic_nav_bible"
+                        android:drawablePadding="6dp"
+                        android:text="Read in context"
+                        android:textColor="@color/ff_verse_card_text"
+                        app:strokeColor="@color/ff_verse_card_stroke" />
+
+                    <Button
+                        android:id="@+id/btnShare"
+                        style="@style/Widget.Material3.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/ff_accent_gold"
+                        android:drawableStart="@drawable/ic_share"
+                        android:drawablePadding="6dp"
+                        android:text="Share card"
+                        android:textColor="@color/ff_primary" />
+
                 </LinearLayout>
+
             </LinearLayout>
+
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Quick stats -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="12dp"
-            android:text="@string/ff_quick_stats"
-            android:textColor="@color/ff_text_primary"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
+        <!-- Stats Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Material3.CardView.Outlined"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="10dp"
-            app:cardBackgroundColor="@color/ff_surface"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/ff_outline"
-            app:strokeWidth="1dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- Saved -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp">
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                app:cardBackgroundColor="@color/ff_surface"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/ff_card_stroke"
+                app:strokeWidth="1dp">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:importantForAccessibility="no"
-                    android:src="@drawable/ic_heart"
-                    app:tint="@color/ff_accent_teal" />
-
-                <TextView
-                    android:id="@+id/statSavedCount"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="0"
-                    android:textColor="@color/ff_text_primary"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    tools:ignore="HardcodedText" />
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ff_nav_saved"
-                    android:textColor="@color/ff_text_secondary"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/statSavedCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/ff_accent_gold"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        tools:text="36" />
 
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Material3.CardView.Outlined"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="10dp"
-            app:cardBackgroundColor="@color/ff_surface"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/ff_outline"
-            app:strokeWidth="1dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="SAVED"
+                        android:textColor="@color/ff_text_secondary"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.08" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Highlights -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp">
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                app:cardBackgroundColor="@color/ff_surface"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/ff_card_stroke"
+                app:strokeWidth="1dp">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:importantForAccessibility="no"
-                    android:src="@drawable/ic_highlight"
-                    app:tint="@color/ff_accent_gold" />
-
-                <TextView
-                    android:id="@+id/statHighlightsCount"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="0"
-                    android:textColor="@color/ff_text_primary"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    tools:ignore="HardcodedText" />
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ff_highlights"
-                    android:textColor="@color/ff_text_secondary"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/statHighlightsCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/ff_accent_blue"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        tools:text="25" />
 
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Material3.CardView.Outlined"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:cardBackgroundColor="@color/ff_surface"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/ff_outline"
-            app:strokeWidth="1dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="HIGHLIGHTS"
+                        android:textColor="@color/ff_text_secondary"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.08" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Chapters -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp">
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                app:cardBackgroundColor="@color/ff_surface"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/ff_card_stroke"
+                app:strokeWidth="1dp">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:importantForAccessibility="no"
-                    android:src="@drawable/ic_nav_bible"
-                    app:tint="@color/ff_accent_blue" />
-
-                <TextView
-                    android:id="@+id/statChaptersCount"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="0"
-                    android:textColor="@color/ff_text_primary"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    tools:ignore="HardcodedText" />
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ff_chapters"
-                    android:textColor="@color/ff_text_secondary"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/statChaptersCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/ff_accent_blue"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        tools:text="7" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="CHAPTERS"
+                        android:textColor="@color/ff_text_secondary"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.08" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
 
-        <!-- Recent saved -->
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Saved header row -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="12dp"
-            android:text="@string/ff_recent_saved"
-            android:textColor="@color/ff_text_primary"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Saved"
+                android:textColor="@color/ff_text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnSeeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="4dp"
+                android:text="See all"
+                android:textColor="@color/ff_accent_gold"
+                android:textSize="14sp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/recentEmpty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ff_recent_empty"
+            android:gravity="center"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp"
+            android:text="No saved verses yet"
             android:textColor="@color/ff_text_secondary"
             android:textSize="14sp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recentList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="3"
             tools:listitem="@layout/item_recent_saved" />
+
     </LinearLayout>
+
 </androidx.core.widget.NestedScrollView>

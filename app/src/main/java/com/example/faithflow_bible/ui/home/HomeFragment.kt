@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.faithflow_bible.R
 import com.example.faithflow_bible.data.BibleRepository
 import com.example.faithflow_bible.data.BibleVerse
@@ -20,6 +21,9 @@ import com.example.faithflow_bible.ui.openBible
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class HomeFragment : Fragment() {
 
@@ -41,6 +45,7 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         recentAdapter = RecentSavedAdapter { openBible(it.bookIndex, it.chapter, it.verse) }
+        binding.recentList.layoutManager = LinearLayoutManager(requireContext())
         binding.recentList.adapter = recentAdapter
 
         viewModel.ui.observe(viewLifecycleOwner) { ui ->
@@ -50,11 +55,26 @@ class HomeFragment : Fragment() {
             recentAdapter.submitList(ui.recent)
             binding.recentList.isVisible = ui.recent.isNotEmpty()
             binding.recentEmpty.isVisible = ui.recent.isEmpty()
+            // Continue Reading card
+            val hasLastRead = ui.lastReadBook >= 0 && ui.lastReadBookName.isNotEmpty()
+            binding.continueReadingCard.isVisible = hasLastRead
+            if (hasLastRead) {
+                binding.continueBookTitle.text = "${ui.lastReadBookName} ${ui.lastReadChapter}"
+                binding.continueReadingCard.setOnClickListener {
+                    openBible(ui.lastReadBook, ui.lastReadChapter)
+                }
+            }
         }
 
         binding.btnReadContext.setOnClickListener { currentVerse?.let { openInBible(it) } }
         binding.btnSettings.setOnClickListener {
             findNavController().navigate(R.id.navigation_settings)
+        }
+        binding.btnInfo.setOnClickListener {
+            findNavController().navigate(R.id.navigation_info)
+        }
+        binding.btnSeeAll.setOnClickListener {
+            findNavController().navigate(R.id.navigation_saved)
         }
     }
 
@@ -64,13 +84,22 @@ class HomeFragment : Fragment() {
         super.onStart()
         showVerseOfTheHour(viewModel.verseOfTheHour())
         viewModel.refresh()
+        // Greeting
+        val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+        binding.greetingText.text = when {
+            hour < 12 -> "Good morning,"
+            hour < 17 -> "Good afternoon,"
+            else -> "Good evening,"
+        }
     }
 
     private fun showVerseOfTheHour(verse: Verse) {
         currentVerse = verse
         binding.verseText.text = "\u201C${verse.text}\u201D"
-        binding.verseReference.text = "${verse.reference} (${verse.translation})"
-        binding.verseTag.text = verse.tag
+        binding.verseReference.text = verse.reference
+        binding.verseTag.text = verse.tag.uppercase()
+        binding.verseTranslation.text = verse.translation
+        binding.verseDate.text = SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.getDefault()).format(Date())
         binding.btnShare.setOnClickListener { share(verse) }
     }
 

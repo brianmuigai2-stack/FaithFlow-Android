@@ -1,5 +1,4 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Theme.FaithflowBible" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ff_primary</item>
         <item name="colorOnPrimary">@color/ff_on_primary</item>
@@ -13,8 +12,8 @@
         <item name="colorOnSurface">@color/ff_text_primary</item>
         <item name="colorOnSurfaceVariant">@color/ff_text_secondary</item>
         <item name="colorOutline">@color/ff_outline</item>
-        <!-- Status bar: deep navy, white icons -->
-        <item name="android:statusBarColor">#163A5F</item>
+        <!-- Solid navy blue status bar on light theme, white icons -->
+        <item name="android:statusBarColor">@color/ff_status_bar</item>
         <item name="android:navigationBarColor">@color/ff_background</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
@@ -26,16 +25,14 @@
     </style>
 
     <style name="Theme.FaithflowBible.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="Theme.FaithflowBible.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <style name="Theme.FaithflowBible.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/splash_window</item>
         <item name="windowSplashScreenAnimatedIcon">@android:color/transparent</item>
         <item name="postSplashScreenTheme">@style/Theme.FaithflowBible</item>
     </style>
 
-    <!-- Small uppercase heading used above each group on the Settings screen.
-         parent="" is required: without it AAPT would look for a Widget.FaithflowBible style. -->
     <style name="Widget.FaithflowBible.SectionHeader" parent="">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

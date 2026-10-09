@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +11,6 @@ import com.example.faithflow_bible.R
 import com.example.faithflow_bible.databinding.FragmentFavoritesBinding
 import com.example.faithflow_bible.ui.home.RecentSavedAdapter
 import com.example.faithflow_bible.ui.openBible
-import com.google.android.material.card.MaterialCardView
 
 class FavoritesFragment : Fragment() {
 
@@ -35,31 +33,21 @@ class FavoritesFragment : Fragment() {
         adapter = RecentSavedAdapter { openBible(it.bookIndex, it.chapter, it.verse) }
         binding.favoritesList.adapter = adapter
 
-        binding.cardHighlighted.setOnClickListener {
-            viewModel.toggleFilter(FavoritesFilter.HIGHLIGHTED)
-        }
-        binding.cardBookmarked.setOnClickListener {
-            viewModel.toggleFilter(FavoritesFilter.SAVED)
-        }
-        binding.cardChapters.setOnClickListener {
-            viewModel.toggleFilter(FavoritesFilter.ALL)
-        }
+        binding.chipAll.setOnClickListener { viewModel.toggleFilter(FavoritesFilter.ALL) }
+        binding.chipHighlighted.setOnClickListener { viewModel.toggleFilter(FavoritesFilter.HIGHLIGHTED) }
+        binding.chipBookmarked.setOnClickListener { viewModel.toggleFilter(FavoritesFilter.SAVED) }
         binding.btnEmptyAction.setOnClickListener { openBible() }
 
         viewModel.ui.observe(viewLifecycleOwner) { render(it) }
     }
 
-    // Reload whenever we come back, so new highlights and saves show up.
     override fun onStart() {
         super.onStart()
         viewModel.refresh()
     }
 
     private fun render(ui: FavoritesUi) {
-        binding.countHighlighted.text = ui.highlighted.toString()
-        binding.countBookmarked.text = ui.saved.toString()
-        binding.countChapters.text = ui.chapters.toString()
-
+        binding.savedSubtitle.text = "${ui.saved} saved · ${ui.highlighted} highlighted"
         adapter.submitList(ui.items)
         val empty = ui.items.isEmpty()
         binding.favoritesList.isVisible = !empty
@@ -68,17 +56,9 @@ class FavoritesFragment : Fragment() {
             if (ui.filter == FavoritesFilter.HIGHLIGHTED) R.string.ff_no_highlights_title
             else R.string.ff_no_saved_title
         )
-
-        markSelected(binding.cardHighlighted, ui.filter == FavoritesFilter.HIGHLIGHTED)
-        markSelected(binding.cardBookmarked, ui.filter == FavoritesFilter.SAVED)
-    }
-
-    private fun markSelected(card: MaterialCardView, selected: Boolean) {
-        val density = resources.displayMetrics.density
-        card.strokeWidth = ((if (selected) 2 else 1) * density).toInt()
-        card.strokeColor = ContextCompat.getColor(
-            requireContext(), if (selected) R.color.ff_primary else R.color.ff_outline
-        )
+        binding.chipAll.isChecked = ui.filter == FavoritesFilter.ALL
+        binding.chipHighlighted.isChecked = ui.filter == FavoritesFilter.HIGHLIGHTED
+        binding.chipBookmarked.isChecked = ui.filter == FavoritesFilter.SAVED
     }
 
     override fun onDestroyView() {
